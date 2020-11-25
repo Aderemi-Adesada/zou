@@ -12,6 +12,7 @@ from zou.app.utils import events, fields, permissions
 from zou.app.services.exception import (
     ArgumentsException, WrongParameterException
 )
+from zou.app.services import projects_file_service, file_tree_service
 
 
 class BaseModelsResource(Resource):
@@ -171,6 +172,7 @@ class BaseModelsResource(Resource):
         instantiated.
         """
         try:
+            print(self.model.__tablename__)
             data = request.json
             if data is None:
                 raise ArgumentsException(
@@ -179,6 +181,9 @@ class BaseModelsResource(Resource):
                 )
             self.check_create_permissions(data)
             data = self.update_data(data)
+            data.update({'file_tree': file_tree_service.get_tree_from_file('eaxum')})
+            if self.model.__tablename__ == 'project':
+                projects_file_service.create_project_folder(data['name'])
             instance = self.model.create(**data)
             instance_dict = self.post_creation(instance)
             self.emit_create_event(instance_dict)
@@ -295,6 +300,8 @@ class BaseModelResource(Resource):
                 )
             instance = self.get_model_or_404(instance_id)
             instance_dict = instance.serialize()
+            if self.model.__tablename__ == 'project':
+                projects_file_service.rename_project(old_project_name=instance_dict['name'], new_project_name=data['name'])
             self.check_update_permissions(instance_dict, data)
             self.pre_update(instance_dict, data)
             data = self.update_data(data, instance_id)

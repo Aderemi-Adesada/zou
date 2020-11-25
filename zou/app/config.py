@@ -101,6 +101,26 @@ LOGS_TOKEN = os.getenv("LOGS_TOKEN")
 
 CRISP_TOKEN = os.getenv("CRISP_TOKEN", "")
 
+
+#added
+SVN_PARENT_PATH = os.getenv("SVN_PARENT_PATH", '/mnt/c/Users/Tanjiro/Projects/eru_test_dir/svn_parent_path')
+SVN_PARENT_URL = os.getenv("SVN_PARENT_URL", "file:////mnt/c/Users/Tanjiro/Projects/eru_test_dir/svn_parent_path")
+PROJECTS_FOLDER = os.getenv("PROJECTS_FOLDER", "/mnt/c/Users/Tanjiro/Projects/eru_test_dir/project_folder")
+FILE_MAP = {
+            'shading':'base',
+            'concept':'none',
+            'modeling':'base',
+            'rigging':'base',
+            'storyboard':'none',
+            'layout':'layout',
+            'previz':'layout',
+            'animation':'anim',
+            'lighting':'lighting',
+            'fx':'fx',
+            'rendering':'lighting',
+            'compositing':'comp',
+        }
+
 # Deprecated
 DONE_TASK_STATUS = "Done"
 WIP_TASK_STATUS = "WIP"
